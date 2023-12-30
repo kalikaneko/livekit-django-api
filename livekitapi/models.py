@@ -168,7 +168,7 @@ class LivekitRoom(PermissionRequiredMixin, models.Model):
             raise ValueError("shareWithNextcloudGroup should not be empty")
         self.is_recording = False
         self.save()
-        print('should start recording')
+        print('should stop recording')
 
     def __repr__(self):
         return f'{self.slug}: {self.started}'

@@ -30,7 +30,7 @@
         <script>
 	function userData() {
 	  return {
-	    recording: false,
+            recording: {% if is_recording %}true{% else %}false{% endif %},
 	    loading: false,
 	    username: "",
 	    room: "",
@@ -110,9 +110,9 @@
 		Stop recording
 	    </button>
             {% endif %}
-            {% if is_recording %}
-             <div class="record-indicator">REC</div>
-            {% endif %}
+             <div 
+		 x-show="recording"
+                 class="record-indicator">REC</div>
 	</div>
 	<iframe src="{{ roomURL }}" allow="microphone; camera"></iframe>
 </body>
