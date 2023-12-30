@@ -79,6 +79,18 @@ class LivekitRoom(PermissionRequiredMixin, models.Model):
     objects = models.Manager()
     current_slot_objects = CurrentSlotManager()
 
+    def is_live(self):
+        # has not started yet, or has already ended
+        if self.started is None or self.ended is not None:
+            return False
+
+        # started too long ago
+        if self.started < timezone.now() - timezone.timedelta(hours=LIVEKIT_DEFAULT_DURATION_HOURS):
+            return False
+
+        # otherwise is considered live
+        return True
+
     @classmethod
     def create_scheduled(cls, scheduledStart, scheduledEnd, owner=None, description=None):
         if description is None:
@@ -124,7 +136,6 @@ class LivekitRoom(PermissionRequiredMixin, models.Model):
 
     def user_can_record(self, user):
         return user.has_perm(START_STOP_RECORDING_PERM, self)
-
 
     def get_link_for_user(self, user):
         key = settings.LIVEKIT_API_KEY

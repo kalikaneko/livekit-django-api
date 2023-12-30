@@ -46,7 +46,7 @@
 		console.debug("record start");
 		this.loading = true;
 		let user = 
-		fetch(window.location + '/stop_recording')
+		fetch(window.location + '/start_recording')
 		    .then(response => response.json())
 		    .then(data => {
 			this.data = data;
@@ -69,7 +69,7 @@
 		}
 		console.debug("record stop");
 		this.loading = true;
-		fetch(window.location + '/start_recording')
+		fetch(window.location + '/stop_recording')
 		    .then(response => response.json())
 		    .then(data => {
 			console.debug("response:" + data);

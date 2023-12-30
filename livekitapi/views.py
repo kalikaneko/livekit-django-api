@@ -13,7 +13,10 @@ def view_room(request, slug):
         link = room.get_link_for_user(request.user)
         can_record = room.user_can_record(request.user)
     except PermissionDenied:
-        return HttpResponse('permission denied')
+        return HttpResponse('permission denied', 401)
+
+    if not room.is_live():
+        return HttpResponse('room not live', 404)
 
     context = {
         'roomURL': link,
