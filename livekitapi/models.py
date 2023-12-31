@@ -1,6 +1,7 @@
 import string
 from itertools import chain
 import attrs
+import requests
 
 from django.db import models
 from django.core.exceptions import PermissionDenied
@@ -25,6 +26,9 @@ LIVEKIT_DEFAULT_BASEURL = "https://meet.livekit.io/custom?liveKitUrl=wss://{inst
 
 JOIN_ROOM_PERM = 'join_room'
 START_STOP_RECORDING_PERM = 'start_stop_recording'
+
+# TODO: make this configurable in settings 
+LIVEKIT_CONTROL_SERVER="http://localhost:3000"
 
 
 @attrs.define
@@ -74,6 +78,7 @@ class LivekitRoom(PermissionRequiredMixin, models.Model):
     scheduledEnd = models.DateTimeField(blank=True, null=True)
 
     # this can be factored out for other sharing methods, but keeping it simple for now.
+    # in reality this is a TALK ID at the moment.
     shareWithNextcloudGroup = models.CharField(max_length=20, help_text="ID of the nextcloud entitiy to use for sharing, Group, Talk or Otherwise")
 
     objects = models.Manager()
@@ -170,7 +175,11 @@ class LivekitRoom(PermissionRequiredMixin, models.Model):
             raise ValueError("shareWithNextcloudGroup should not be empty")
         self.is_recording = True
         self.save()
+
+        # TODO: catch errors
         print('should start recording')
+        url = LIVEKIT_CONTROL_SERVER + f"/start?room={self.slug}&shareWith={self.shareWithNextcloudGroup}"
+        requests.get(url)
 
     def stop_recording(self, user):
         if not user.has_perm(START_STOP_RECORDING_PERM, self):
@@ -179,7 +188,11 @@ class LivekitRoom(PermissionRequiredMixin, models.Model):
             raise ValueError("shareWithNextcloudGroup should not be empty")
         self.is_recording = False
         self.save()
+
+        # TODO: catch errors
         print('should stop recording')
+        url = LIVEKIT_CONTROL_SERVER + f"/stop?room={self.slug}"
+        requests.get(url)
 
     def __repr__(self):
         return f'{self.slug}: {self.started}'

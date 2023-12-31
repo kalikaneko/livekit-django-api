@@ -4,8 +4,7 @@
 
 Detailed documentation is in the "docs" directory.
 
-Quick start
------------
+## Quick start
 
 1. Add "livekit" to your INSTALLED_APPS setting like this:
 
@@ -33,5 +32,22 @@ LIVEKIT_INSTANCE=meet-asdf.livekit.cloud
 4. Start the development server and visit http://127.0.0.1:8000/admin/
    to create a room (you'll need the Admin app enabled).
 
-5. Visit http://127.0.0.1:8000/rooms/ to participate in an existing conference room.
+5. Visit http://127.0.0.1:8000/rooms/roomid to participate in an existing conference room.
 
+
+## Permissions
+
+`django-livekit` uses `guardian` for authorization. There are two distinct
+permissions you can give your users or groups:
+
+* `livekitapi.JOIN_ROOM_PERM` - this is only effective is the room has set `is_open` to False.
+* `livekitapi.START_STOP_RECORDING_PERM` - to be able to toggle room recording. By default, the room's `owner` has these permissions set.
+
+# Livekit control Server
+
+The python livekit api doesn't allow to control the egress server (as far as I know).
+You can use the small `livekit-minio`
+[utility](https://github.com/kalikaneko/livekit-record-minio) for this. That
+repo also has a second utility for sharing the resulting file with a Nextcloud
+chat, please refer to the
+[README](https://github.com/kalikaneko/livekit-record-minio).
