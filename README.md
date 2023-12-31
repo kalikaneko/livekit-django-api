@@ -6,7 +6,7 @@ Detailed documentation is in the "docs" directory.
 
 ## Quick start
 
-1. Add "livekit" to your INSTALLED_APPS setting like this:
+1. Add "livekitapi" and "guardian" to your INSTALLED_APPS setting like this:
 
 ```
     INSTALLED_APPS = [
