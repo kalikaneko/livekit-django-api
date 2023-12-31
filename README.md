@@ -11,7 +11,8 @@ Detailed documentation is in the "docs" directory.
 ```
     INSTALLED_APPS = [
         ...,
-        "livekit",
+        "livekitapi",
+        "guardian",
     ]
 ```
 
@@ -23,16 +24,21 @@ LIVEKIT_API_SECRET=secret
 LIVEKIT_INSTANCE=meet-asdf.livekit.cloud
 ```
 
-2. Include the polls URLconf in your project urls.py like this::
+2. Include the livekitapi URLconf in your project urls.py like this:
 
-    path("livekit/", include("livekit.urls")),
+```
+path('', include('livekitapi.urls')),
+```
 
-3. Run ``python manage.py migrate`` to create the livekit models.
+3. Run ``python manage.py migrate`` to create the livekitapi models.
 
 4. Start the development server and visit http://127.0.0.1:8000/admin/
    to create a room (you'll need the Admin app enabled).
 
 5. Visit http://127.0.0.1:8000/rooms/roomid to participate in an existing conference room.
+
+
+For more details, refer to the provided example `settings.py` in the `livekitapi_example` project.
 
 
 ## Permissions
