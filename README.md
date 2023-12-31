@@ -1,6 +1,6 @@
-# django-livekit
+# django-livekit-api
 
-`livekit` is a Django app to manage livekit conference rooms.
+`livekitapi` is a Django app to manage livekit conference rooms.
 
 Detailed documentation is in the "docs" directory.
 
